@@ -1,0 +1,6 @@
+@NotiblingBackendAPI_HostAddress = http://localhost:5219
+
+GET {{NotiblingBackendAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
