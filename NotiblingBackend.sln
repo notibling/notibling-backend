@@ -1,9 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
+VisualStudioVersion = 17.12.35514.174
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotiblingBackendAPI", "NotiblingBackendAPI\NotiblingBackendAPI.csproj", "{752F1493-C26F-4BF3-A728-3486516C44D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotiblingBackend.Domain", "NotiblingBackend.Domain\NotiblingBackend.Domain.csproj", "{BD309A69-A73D-415A-B473-186A8A4C084E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotiblingBackend.Application", "NotiblingBackend.Application\NotiblingBackend.Application.csproj", "{B5CEBA4E-FBA3-4130-9720-97C1C7421888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotiblingBackend.DataAccess", "NotiblingBackend.DataAccess\NotiblingBackend.DataAccess.csproj", "{A9721565-7E22-487A-9126-BC39373FDE4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotiblingBackend.Utilities", "NotiblingBackend.Utilities\NotiblingBackend.Utilities.csproj", "{B654A56E-DAF9-42BC-80B0-223F2F539E7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotiblingBackend.Contracts", "NotiblingBackend.Contracts\NotiblingBackend.Contracts.csproj", "{B8A3423B-1BA8-4713-9399-85B78FFD2519}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotiblingBackend.Mapping", "NotiblingBackend.Mapping\NotiblingBackend.Mapping.csproj", "{EA7CD213-8E9C-48A6-9642-AD389B411E13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +27,30 @@ Global
 		{752F1493-C26F-4BF3-A728-3486516C44D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{752F1493-C26F-4BF3-A728-3486516C44D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{752F1493-C26F-4BF3-A728-3486516C44D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD309A69-A73D-415A-B473-186A8A4C084E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD309A69-A73D-415A-B473-186A8A4C084E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD309A69-A73D-415A-B473-186A8A4C084E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD309A69-A73D-415A-B473-186A8A4C084E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5CEBA4E-FBA3-4130-9720-97C1C7421888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5CEBA4E-FBA3-4130-9720-97C1C7421888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5CEBA4E-FBA3-4130-9720-97C1C7421888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5CEBA4E-FBA3-4130-9720-97C1C7421888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9721565-7E22-487A-9126-BC39373FDE4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9721565-7E22-487A-9126-BC39373FDE4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9721565-7E22-487A-9126-BC39373FDE4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9721565-7E22-487A-9126-BC39373FDE4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B654A56E-DAF9-42BC-80B0-223F2F539E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B654A56E-DAF9-42BC-80B0-223F2F539E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B654A56E-DAF9-42BC-80B0-223F2F539E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B654A56E-DAF9-42BC-80B0-223F2F539E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8A3423B-1BA8-4713-9399-85B78FFD2519}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8A3423B-1BA8-4713-9399-85B78FFD2519}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8A3423B-1BA8-4713-9399-85B78FFD2519}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8A3423B-1BA8-4713-9399-85B78FFD2519}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA7CD213-8E9C-48A6-9642-AD389B411E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA7CD213-8E9C-48A6-9642-AD389B411E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA7CD213-8E9C-48A6-9642-AD389B411E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA7CD213-8E9C-48A6-9642-AD389B411E13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
