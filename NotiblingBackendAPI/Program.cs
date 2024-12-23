@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using NotiblingBackend.Application.Interfaces.UseCases.User;
 using NotiblingBackend.Application.Interfaces.UseCases.User.Company;
+using NotiblingBackend.Application.UseCases.User;
 using NotiblingBackend.Application.UseCases.User.Company;
 using NotiblingBackend.DataAccess;
 using NotiblingBackend.DataAccess.Repositories;
@@ -35,6 +37,10 @@ builder.Services.AddScoped<IGetByIdCompany, GetByIdCompany>();
 builder.Services.AddScoped<IGetAllCompany, GetAllCompany>();
 builder.Services.AddScoped<IUpdateCompany, UpdateCompany>();
 builder.Services.AddScoped<ISoftDeleteCompany, SoftDeleteCompany>();
+#endregion
+
+#region User
+builder.Services.AddScoped<IValidateLogin, ValidateLogin>();
 #endregion
 
 #endregion

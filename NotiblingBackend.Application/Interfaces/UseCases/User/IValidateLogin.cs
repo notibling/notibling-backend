@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NotiblingBackend.Domain.Interfaces.Repositories
+namespace NotiblingBackend.Application.Interfaces.UseCases.User
 {
-    public interface IUserRepository
+    public interface IValidateLogin
     {
-        Task<bool> VerifyUsername(string userName);
-
         Task<bool> ValidateLogin(string email, string password);
     }
 }
