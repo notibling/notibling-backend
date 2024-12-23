@@ -158,7 +158,7 @@ namespace NotiblingBackend.Domain.Entities
         public DateTime? DeletedAt
         {
             get => _deletedAt;
-            internal set
+            private set
             {
                 _deletedAt = value;
             }
@@ -190,6 +190,14 @@ namespace NotiblingBackend.Domain.Entities
             var specifiedUtcNow = DateTime.SpecifyKind(utcNow, DateTimeKind.Unspecified); // Eliminas el Kind de UTC
             UpdatedAt = specifiedUtcNow;
         }
+
+        public void DeletedModifiedDate()
+        {
+            var utcNow = DateTime.UtcNow; // Obtienes la hora actual en UTC
+            var specifiedUtcNow = DateTime.SpecifyKind(utcNow, DateTimeKind.Unspecified); // Eliminas el Kind de UTC
+            DeletedAt = specifiedUtcNow;
+        }
+
 
         public DateTime GetLocalTime(DateTime utcTime)
         {
