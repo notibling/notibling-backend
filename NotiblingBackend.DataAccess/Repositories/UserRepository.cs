@@ -33,7 +33,7 @@ namespace NotiblingBackend.DataAccess.Repositories
                 bool isPasswordValid = PasswordEncryptor.VerifyPassword(password, user.Password);
                 if (!isPasswordValid)
                 {
-                    throw new Exception("Contraseña incorrecta.");
+                    throw new CompanyException("Contraseña incorrecta.");
                 }
 
                 return true; 
