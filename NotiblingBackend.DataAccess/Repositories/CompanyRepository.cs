@@ -234,9 +234,12 @@ namespace NotiblingBackend.DataAccess.Repositories
                 var company = await GetByGuid(companyId);
 
                 company.IsDeleted= true;
-                var utcNow = DateTime.UtcNow; // Obtienes la hora actual en UTC
-                var specifiedUtcNow = DateTime.SpecifyKind(utcNow, DateTimeKind.Unspecified); // Eliminas el Kind de UTC
-                company.DeletedAt = specifiedUtcNow; // Asignas la fecha convertida sin zona horaria
+
+                company.DeletedModifiedDate();
+
+                _dbContext.Companies.Attach(company);
+
+                _dbContext.Entry(company).Property(c => c.DeletedAt).IsModified = true;
 
                 await _dbContext.SaveChangesAsync();
                 return true;
@@ -263,7 +266,7 @@ namespace NotiblingBackend.DataAccess.Repositories
                 throw new CompanyException("La empresa no existe o no está eliminada.");
 
             company.IsDeleted = false;
-            company.DeletedAt = null;
+            //company.DeletedAt = null;
 
             await _dbContext.SaveChangesAsync();
             return true;
