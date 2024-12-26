@@ -224,6 +224,11 @@ namespace NotiblingBackend.Domain.Entities
         }
         #endregion
 
+        public string GetUserRole()
+        {
+            return UserRole.ToString();
+        }
+
         #region Validations
         //public void Validate()
         //{

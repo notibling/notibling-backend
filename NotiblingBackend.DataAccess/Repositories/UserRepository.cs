@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NotiblingBackend.Domain.Entities;
 using NotiblingBackend.Domain.Interfaces.Repositories;
 using NotiblingBackend.Utilities.Exceptions;
 using NotiblingBackend.Utilities.Security;
@@ -19,24 +20,26 @@ namespace NotiblingBackend.DataAccess.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<bool> ValidateLogin(string email, string password)
+        public Task<User> GetByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<User> ValidateLogin(string email, string password)
         {
             try
             {
                 var user = await _dbContext.Users
                     .Where(u => u.Email == email)
-                    .FirstOrDefaultAsync();
-
-                if (user == null)
-                    throw new CompanyException("Usuario no encontrado.");
+                    .FirstOrDefaultAsync() ?? throw new CompanyException("Usuario no encontrado.");
 
                 bool isPasswordValid = PasswordEncryptor.VerifyPassword(password, user.Password);
                 if (!isPasswordValid)
                 {
-                    throw new CompanyException("Contraseña incorrecta.");
+                    throw new CompanyException("Los datos ingresados son incorrectos.");
                 }
 
-                return true; 
+                return user; 
 
             }
             catch (CompanyException)

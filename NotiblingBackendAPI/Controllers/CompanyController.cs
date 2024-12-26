@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NotiblingBackend.Application.Interfaces.UseCases.User.Company;
@@ -81,6 +82,7 @@ namespace NotiblingBackendAPI.Controllers
         }
 
         [HttpGet("get-companies")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<GetCompanyDto>>> Get()
         {
             try

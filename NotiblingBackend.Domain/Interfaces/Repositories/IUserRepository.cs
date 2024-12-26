@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NotiblingBackend.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace NotiblingBackend.Domain.Interfaces.Repositories
     {
         Task<bool> VerifyUsername(string userName);
 
-        Task<bool> ValidateLogin(string email, string password);
+        Task<User> ValidateLogin(string email, string password);
+
+        Task<User> GetByEmail(string email);
     }
 }
