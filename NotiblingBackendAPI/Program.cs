@@ -1,11 +1,16 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NotiblingBackend.Application.Interfaces.Token;
+using NotiblingBackend.Application.Interfaces.Token.Refresh;
 using NotiblingBackend.Application.Interfaces.UseCases.User;
 using NotiblingBackend.Application.Interfaces.UseCases.User.Company;
+using NotiblingBackend.Application.UseCases.Token;
+using NotiblingBackend.Application.UseCases.Token.Refresh;
 using NotiblingBackend.Application.UseCases.User;
 using NotiblingBackend.Application.UseCases.User.Company;
 using NotiblingBackend.DataAccess;
+using NotiblingBackend.DataAccess.Migrations;
 using NotiblingBackend.DataAccess.Repositories;
 using NotiblingBackend.Domain.Interfaces.Repositories;
 using System.Security.Cryptography;
@@ -79,6 +84,8 @@ builder.Services.AddDbContext<NBContext>(options => options.UseNpgsql(builder.Co
 //Repositories
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
 
 //Use cases
 #region Company
@@ -93,6 +100,18 @@ builder.Services.AddScoped<ISoftDeleteCompany, SoftDeleteCompany>();
 builder.Services.AddScoped<IAuthentication, Authentication>();
 #endregion
 
+#region Token
+builder.Services.AddScoped<IGenerateAccessToken, GenerateAccessToken>();
+builder.Services.AddScoped<IGenerateRefreshToken, GenerateRefreshToken>();
+
+//Refresh
+builder.Services.AddScoped<IAddRefreshToken, NotiblingBackend.Application.UseCases.Token.Refresh.AddRefreshToken>();
+builder.Services.AddScoped<IGetByRefreshToken, GetByRefreshToken>();
+builder.Services.AddScoped<IRevokeRefreshToken, RevokeRefreshToken>();
+builder.Services.AddScoped<ISaveChangesRefreshToken, SaveChangesRefreshToken>();
+#endregion
+
+builder.Services.AddScoped<IToken, Token>();
 #endregion
 
 var app = builder.Build();

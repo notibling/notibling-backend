@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NotiblingBackend.Application.Dtos.User;
+using NotiblingBackend.Application.Interfaces.Token;
+using NotiblingBackend.Application.Interfaces.Token.Refresh;
 using NotiblingBackend.Application.Interfaces.UseCases.User;
 using NotiblingBackend.Contracts.DTOs;
 using NotiblingBackend.Domain.Entities;
+using NotiblingBackend.Domain.Interfaces.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -19,13 +22,30 @@ namespace NotiblingBackendAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthentication _validateLogin;
+        private readonly IGenerateAccessToken _generateAccessToken;
+        private readonly IGenerateRefreshToken _generateRefreshToken;
+        private readonly IAddRefreshToken _addRefreshToken;
+        private readonly ISaveChangesRefreshToken _saveChangesRefreshToken;
+        private readonly IGetByRefreshToken _getByRefreshToken;
+        private readonly IRevokeRefreshToken _revokeRefreshToken;
         //private readonly RSA _privateKey;
 
-        public AuthController(IAuthentication validateLogin)
+        public AuthController(
+            IAuthentication validateLogin,
+            IGenerateAccessToken generateAccessToken,
+            IGenerateRefreshToken generateRefreshToken,
+            IAddRefreshToken addRefreshToken,
+            ISaveChangesRefreshToken saveChangesRefreshToken,
+            IGetByRefreshToken getByRefreshToken,
+            IRevokeRefreshToken revokeRefreshToken)
         {
             _validateLogin = validateLogin;
-            //_privateKey = RSA.Create();
-            //_privateKey.ImportFromPem(System.IO.File.ReadAllText("Keys/rsa-private-key.pem"));
+            _generateAccessToken = generateAccessToken;
+            _generateRefreshToken = generateRefreshToken;
+            _addRefreshToken = addRefreshToken;
+            _saveChangesRefreshToken = saveChangesRefreshToken;
+            _getByRefreshToken = getByRefreshToken;
+            _revokeRefreshToken = revokeRefreshToken;
         }
 
         [HttpPost("login-user")]
@@ -34,17 +54,38 @@ namespace NotiblingBackendAPI.Controllers
 
             try
             {
+                //var token = await _validateLogin.ValidateLogin(auth.Email, auth.Password);
+
+                //return Ok(new { token });
+
+                // Validar credenciales y generar el Access Token
                 var token = await _validateLogin.ValidateLogin(auth.Email, auth.Password);
 
-                //if (user != null)
-                //{
-                //    //string tokenResponse = GenerateToken(user);
+                // Generar el Refresh Token
+                var refreshToken = _generateRefreshToken.GenerateRefreshToken();
 
-                //    return Ok(new { token = tokenResponse });
-                //}
-                //return BadRequest("Error en el login.");
+                // Guardar el Refresh Token en la base de datos
+                await _addRefreshToken.AddAsync(new RefreshToken
+                {
+                    Token = refreshToken,
+                    UserId = auth.Email, // O el ID del usuario según corresponda
+                    UserRole = "Company",
+                    ExpiryDate = DateTime.UtcNow.AddDays(7),
+                    IsRevoked = false
+                });
+                await _saveChangesRefreshToken.SaveChangesAsync();
 
-                return Ok(new { token });
+                // Configurar la cookie para el Refresh Token
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true, // Solo se enviará por HTTPS
+                    SameSite = SameSiteMode.Strict, // Evitar envío en contextos cruzados
+                    Expires = DateTime.UtcNow.AddDays(7)
+                };
+                Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+
+                return Ok(new { AccessToken = token, RefreshToken = refreshToken });
             }
             catch (Exception ex)
             {
@@ -53,64 +94,69 @@ namespace NotiblingBackendAPI.Controllers
 
         }
 
-        //private string GenerateToken(NotiblingBackend.Contracts.DTOs.UserDto user)
-        //{
-        //    //var userId = "12345"; // ID ficticio del usuario
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenDto request)
+        {
+            //var storedToken = await _getByRefreshToken.GetByTokenAsync(request.RefreshToken);
 
-        //    //// Crear los claims
-        //    //var claims = new[]
-        //    //{
-        //    //        new Claim(JwtRegisteredClaimNames.Sub, userId),
-        //    //        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        //    //        };
+            //if (storedToken == null || storedToken.IsRevoked || storedToken.ExpiryDate <= DateTime.UtcNow)
+            //    return Unauthorized("Invalid or expired refresh token.");
 
-        //    //// Configurar el token
-        //    //var tokenHandler = new JwtSecurityTokenHandler();
-        //    //var tokenDescriptor = new SecurityTokenDescriptor
-        //    //{
-        //    //    Subject = new ClaimsIdentity(claims),
-        //    //    Expires = DateTime.UtcNow.AddHours(1),
-        //    //    Issuer = "ApiUsers_Issuer",
-        //    //    Audience = "EcommerceMicroservices_Audience",
-        //    //    SigningCredentials = new SigningCredentials(
-        //    //        new RsaSecurityKey(_privateKey),
-        //    //        SecurityAlgorithms.RsaSha256
-        //    //    )
-        //    //};
+            //var newJwtToken = _generateAccessToken.GenerateToken(new NotiblingBackend.Contracts.DTOs.UserDto { Id = storedToken.UserId, Role = "Company" });
+            //var newRefreshToken = _generateRefreshToken.GenerateRefreshToken();
 
-        //    //// Crear el token
-        //    //var token = tokenHandler.CreateToken(tokenDescriptor);
-        //    //var tokenString = tokenHandler.WriteToken(token);
+            //storedToken.Token = newRefreshToken;
+            //storedToken.ExpiryDate = DateTime.UtcNow.AddDays(7);
+            //await _saveChangesRefreshToken.SaveChangesAsync();
 
+            //return Ok(new { AccessToken = newJwtToken, RefreshToken = newRefreshToken });
 
-        //    // Crear los claims esenciales
-        //    var claims = new List<Claim>
-        //    {
-        //        new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-        //        new Claim(ClaimTypes.Role, user.Role),
-        //        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        //        new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-        //    };
+            var refreshToken = Request.Cookies["refreshToken"];
 
-        //    // Configurar el token descriptor
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var tokenDescriptor = new SecurityTokenDescriptor
-        //    {
-        //        Subject = new ClaimsIdentity(claims),
-        //        Expires = DateTime.UtcNow.AddHours(1),
-        //        Issuer = "ApiUsers_Issuer",
-        //        Audience = "EcommerceMicroservices_Audience",
-        //        SigningCredentials = new SigningCredentials(
-        //            new RsaSecurityKey(_privateKey),
-        //            SecurityAlgorithms.RsaSha256
-        //        )
-        //    };
+            if (string.IsNullOrEmpty(refreshToken))
+                return Unauthorized("No refresh token found.");
 
-        //    // Generar y serializar el token
-        //    var token = tokenHandler.CreateToken(tokenDescriptor);
-        //    var tokenString = tokenHandler.WriteToken(token);
+            var storedToken = await _getByRefreshToken.GetByTokenAsync(refreshToken);
 
-        //    return tokenString;
-        //}
+            if (storedToken == null || storedToken.IsRevoked || storedToken.ExpiryDate <= DateTime.UtcNow)
+                return Unauthorized("Invalid or expired refresh token.");
+
+            var newJwtToken = _generateAccessToken.GenerateToken(new NotiblingBackend.Contracts.DTOs.UserDto
+            {
+                Id = storedToken.UserId,
+                Role = "Company"
+            });
+            var newRefreshToken = _generateRefreshToken.GenerateRefreshToken();
+
+            storedToken.Token = newRefreshToken;
+            storedToken.ExpiryDate = DateTime.UtcNow.AddDays(7);
+            await _saveChangesRefreshToken.SaveChangesAsync();
+
+            // Actualizar la cookie con el nuevo Refresh Token
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", newRefreshToken, cookieOptions);
+
+            return Ok(new { AccessToken = newJwtToken });
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            if (!string.IsNullOrEmpty(refreshToken))
+            {
+                await _revokeRefreshToken.RevokeAsync(refreshToken);
+                await _saveChangesRefreshToken.SaveChangesAsync();
+                Response.Cookies.Delete("refreshToken");
+            }
+
+            return Ok("Sesión cerrada.");
+        }
     }
 }

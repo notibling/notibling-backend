@@ -19,6 +19,7 @@ namespace NotiblingBackend.DataAccess
         public DbSet<CompanyType> CompaniesTypes { get; set; }
         public DbSet<CompanyLevels> CompaniesLevels { get; set; }
         public DbSet<Industry> Industries { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
