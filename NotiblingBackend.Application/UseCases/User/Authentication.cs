@@ -30,7 +30,7 @@ namespace NotiblingBackend.Application.UseCases.User
         {
             _userRepository = userRepository;
             _privateKey = RSA.Create();
-            _privateKey.ImportFromPem(System.IO.File.ReadAllText("Keys/rsa-private-key.pem"));
+            _privateKey.ImportFromPem(System.IO.File.ReadAllText("C:\\Users\\monte\\rsa-private-key.pem"));
             _generateAccessToken = generateAccessToken;
         }
         #endregion

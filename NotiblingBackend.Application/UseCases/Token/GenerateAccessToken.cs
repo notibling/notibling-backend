@@ -1,6 +1,8 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using NotiblingBackend.Application.Interfaces.Token;
 using NotiblingBackend.Contracts.DTOs;
+using NotiblingBackend.Domain.Entities;
 using NotiblingBackend.Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -17,11 +19,13 @@ namespace NotiblingBackend.Application.UseCases.Token
     {
         #region Dependency Injection
         private readonly RSA _privateKey;
+        private readonly IConfiguration _configuration;
 
-        public GenerateAccessToken()
+        public GenerateAccessToken(IConfiguration configuration)
         {
+            _configuration = configuration;
             _privateKey = RSA.Create();
-            _privateKey.ImportFromPem(System.IO.File.ReadAllText("Keys/rsa-private-key.pem"));
+            _privateKey.ImportFromPem(System.IO.File.ReadAllText("C:\\Users\\monte\\rsa-private-key.pem"));
         }
         #endregion
         public string GenerateToken(UserDto user)
