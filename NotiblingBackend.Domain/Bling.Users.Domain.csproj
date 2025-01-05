@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NotiblingBackend.Contracts\NotiblingBackend.Contracts.csproj" />
-    <ProjectReference Include="..\NotiblingBackend.Utilities\NotiblingBackend.Utilities.csproj" />
+    <ProjectReference Include="..\NotiblingBackend.Contracts\Bling.Users.Contracts.csproj" />
+    <ProjectReference Include="..\NotiblingBackend.Utilities\Bling.Users.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

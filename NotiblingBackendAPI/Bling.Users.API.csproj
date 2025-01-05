@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NotiblingBackend.Application\NotiblingBackend.Application.csproj" />
-    <ProjectReference Include="..\NotiblingBackend.DataAccess\NotiblingBackend.DataAccess.csproj" />
+    <ProjectReference Include="..\NotiblingBackend.Application\Bling.Users.Application.csproj" />
+    <ProjectReference Include="..\NotiblingBackend.DataAccess\Bling.Users.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

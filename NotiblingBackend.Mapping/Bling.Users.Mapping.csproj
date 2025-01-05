@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NotiblingBackend.Contracts\NotiblingBackend.Contracts.csproj" />
-    <ProjectReference Include="..\NotiblingBackend.Domain\NotiblingBackend.Domain.csproj" />
+    <ProjectReference Include="..\NotiblingBackend.Contracts\Bling.Users.Contracts.csproj" />
+    <ProjectReference Include="..\NotiblingBackend.Domain\Bling.Users.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NotiblingBackend.Domain\NotiblingBackend.Domain.csproj" />
-    <ProjectReference Include="..\NotiblingBackend.Mapping\NotiblingBackend.Mapping.csproj" />
-    <ProjectReference Include="..\NotiblingBackend.Utilities\NotiblingBackend.Utilities.csproj" />
+    <ProjectReference Include="..\NotiblingBackend.Domain\Bling.Users.Domain.csproj" />
+    <ProjectReference Include="..\NotiblingBackend.Mapping\Bling.Users.Mapping.csproj" />
+    <ProjectReference Include="..\NotiblingBackend.Utilities\Bling.Users.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

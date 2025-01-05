@@ -150,7 +150,7 @@ namespace NotiblingBackend.Domain.Entities
         public bool IsDeleted
         {
             get => _isDeleted;
-            internal set
+            set
             {
                 _isDeleted = value;
             }

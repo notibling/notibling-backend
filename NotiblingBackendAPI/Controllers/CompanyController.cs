@@ -54,6 +54,7 @@ namespace NotiblingBackendAPI.Controllers
 
         //[HttpGet("{id}")]
         [HttpGet("get-company/{id}")]
+        [Authorize]
         public async Task<ActionResult<GetCompanyDto>> Get(int? id)
         {
             try
@@ -107,6 +108,7 @@ namespace NotiblingBackendAPI.Controllers
         }
 
         [HttpPatch("update-company/{companyId}")]
+        [Authorize]
         public async Task<ActionResult> Update(string companyId, [FromBody] UpdateCompanyDto updateCompanyDto)
         {
             try
@@ -130,6 +132,7 @@ namespace NotiblingBackendAPI.Controllers
         }
 
         [HttpDelete("delete-company/{companyId}")]
+        [Authorize]
         public async Task<ActionResult> Delete(string companyId)
         {
             try
